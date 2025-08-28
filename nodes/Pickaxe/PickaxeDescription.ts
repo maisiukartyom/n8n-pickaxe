@@ -1,11 +1,7 @@
 // File: UserDescription.ts
 import { INodeProperties } from 'n8n-workflow';
 
-/**
- * Defines the "Operation" dropdown. When the resource is set to 'user', this parameter will be shown.
- * Each option in this dropdown represents a specific API endpoint and contains the routing information
- * needed to make the request.
- */
+
 export const pickaxeOperations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
@@ -20,57 +16,73 @@ export const pickaxeOperations: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Get',
-				value: 'get',
+				name: 'Get User',
+				value: 'getUser',
 				description: 'Get a single user by their email',
 				action: 'Get a user',
 				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'GET',
-						// The '={{...}}' syntax embeds the userEmail parameter directly into the URL path.
-						// Note: The '/=' at the start ensures the base URL is not prepended twice.
 						url: '=/studio/user/{{$parameter.userEmail}}',
+						qs: {
+							studioId: '={{$parameter.studioId}}'
+						}
 					},
 				},
 			},
 			{
-				name: 'List',
-				value: 'list',
+				name: 'List Users',
+				value: 'listUsers',
 				description: 'Get a list of users',
 				action: 'List users',
 				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'GET',
-						url: '/studio/user/list', // Endpoint for listing users
-						// `qs` stands for Query String. These are automatically added to the URL.
-						// e.g., /users?skip=0&take=50
+						url: '/studio/user/list',
 						qs: {
 							skip: '={{$parameter.skip}}',
 							take: '={{$parameter.take}}',
+							studioId: '={{$parameter.studioId}}'
 						},
 					},
 				},
 			},
 		],
-		default: 'get',
+		default: 'getUser',
 	},
 ];
 
-// Define the fields to show when the 'Get' operation is selected.
+
 const getUserFields: INodeProperties[] = [
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Studio',
+		name: 'studioId',
+		type: 'options', // This tells n8n it's a dropdown
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['getUser'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getStudios',
+		},
+	},
 	{
 		displayName: 'User Email',
 		name: 'userEmail',
 		type: 'string',
 		default: '',
 		required: true,
-		// Show this field only when resource is 'user' AND operation is 'get'.
 		displayOptions: {
 			show: {
-				resource: ['user'],
-				operation: ['get'],
+				resource: ['pickaxe'],
+				operation: ['getUser'],
 			},
 		},
 		description: 'The email of the user to retrieve',
@@ -78,18 +90,34 @@ const getUserFields: INodeProperties[] = [
 	},
 ];
 
-// Define the fields to show when the 'List' operation is selected.
+
 const listUsersFields: INodeProperties[] = [
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Studio',
+		name: 'studioId',
+		type: 'options', // This tells n8n it's a dropdown
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['listUsers'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getStudios',
+		},
+	},
 	{
 		displayName: 'Skip',
 		name: 'skip',
 		type: 'number',
 		default: 0,
-		// Show this field only when resource is 'user' AND operation is 'list'.
 		displayOptions: {
 			show: {
-				resource: ['user'],
-				operation: ['list'],
+				resource: ['pickaxe'],
+				operation: ['listUsers'],
 			},
 		},
 		description: 'The number of records to skip for pagination',
@@ -102,8 +130,8 @@ const listUsersFields: INodeProperties[] = [
 		default: 50,
 		displayOptions: {
 			show: {
-				resource: ['user'],
-				operation: ['list'],
+				resource: ['pickaxe'],
+				operation: ['listUsers'],
 			},
 		},
 		description: 'The maximum number of records to return',

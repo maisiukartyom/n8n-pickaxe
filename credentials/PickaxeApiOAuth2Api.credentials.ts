@@ -11,7 +11,6 @@ export class PickaxeApiOAuth2Api implements ICredentialType {
 	displayName = 'Pickaxe OAuth2 API';
 	documentationUrl = 'https://docs.pickaxe.com/integrations/n8n';
 
-	// The `properties` array is now empty because the user does not need to enter anything.
 	properties: INodeProperties[] = [
 		{
 			displayName: 'Grant Type',
@@ -35,7 +34,7 @@ export class PickaxeApiOAuth2Api implements ICredentialType {
 			displayName: 'Auth URI Query Parameters',
 			name: 'authQueryParameters',
 			type: 'hidden',
-			default: '',
+			default: 'prompt=login',
 		},
 		{
 			displayName: 'Authentication',
@@ -74,7 +73,6 @@ export class PickaxeApiOAuth2Api implements ICredentialType {
 		}
 	};
 
-	// Test method remains the same - it's still a best practice!
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://core-api.pickaxe.co',

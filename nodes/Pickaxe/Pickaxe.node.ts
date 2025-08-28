@@ -1,5 +1,4 @@
-import { INodeType, INodeTypeDescription, NodeConnectionType  } from 'n8n-workflow';
-// Import the operations and fields from your description file
+import { INodeType, INodeTypeDescription, NodeConnectionType, ILoadOptionsFunctions, INodePropertyOptions  } from 'n8n-workflow';
 import { pickaxeOperations, pickaxeFields } from './PickaxeDescription';
 
 export class Pickaxe implements INodeType {
@@ -9,7 +8,6 @@ export class Pickaxe implements INodeType {
 		icon: 'file:icon.svg',
 		group: ['transform'],
 		version: 1,
-		// This subtitle dynamically shows the selected operation, like "Get" or "List"
 		subtitle: '={{$parameter["operation"]}}',
 		description: 'Interact with the Pickaxe APIs',
 		defaults: {
@@ -26,7 +24,7 @@ export class Pickaxe implements INodeType {
 		],
 		// Default settings for all requests made by this node
 		requestDefaults: {
-			baseURL: 'https://core-api.pickaxe.co/v1',
+			baseURL: 'https://api.pickaxe.co/v1',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -34,7 +32,7 @@ export class Pickaxe implements INodeType {
 		},
 		// The main properties array defines the UI of the node
 		properties: [
-			// This is the top-level resource selector. For this node, it's always 'User'.
+			// This is the top-level resource selector. For this node, it's always 'Pickaxe'.
 			{
 				displayName: 'Resource',
 				name: 'resource',
@@ -54,4 +52,33 @@ export class Pickaxe implements INodeType {
 			...pickaxeFields,
 		],
 	};
+
+	methods = {
+		loadOptions: {
+			async getStudios(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+					const returnData: INodePropertyOptions[] = [];
+
+					const {studios} = await this.helpers.requestWithAuthentication.call(
+						this,
+						'pickaxeApiOAuth2Api', // The name of the credential to use
+						{
+							method: 'GET',
+							url: 'https://api.pickaxe.co/v1/integrations/api/studios/list', // Your endpoint to get the list
+							json: true,
+						},
+					);
+
+					for (const studio of studios){
+						const studioName = studio.name
+						const studioId = studio.studioId
+						returnData.push({
+							name: studioName,
+							value: studioId
+						})
+					}
+
+					return returnData
+				},
+		}
+	}
 }
