@@ -79,6 +79,90 @@ export class Pickaxe implements INodeType {
 
 					return returnData
 				},
+			async getDocuments(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+					const studioId = this.getCurrentNodeParameter('studioId') as string;
+					const returnData: INodePropertyOptions[] = [];
+
+					const {documents} = await this.helpers.requestWithAuthentication.call(
+						this,
+						'pickaxeApiOAuth2Api',
+						{
+							method: 'GET',
+							url: 'https://api.pickaxe.co/v1/integrations/api/documents/list',
+							json: true,
+							qs: {
+								studioId: `=${studioId}`
+							}
+						},
+					);
+
+					for (const document of documents){
+						const documentName = document.name
+						const documentId = document.studioId
+						returnData.push({
+							name: documentName,
+							value: documentId
+						})
+					}
+
+					return returnData
+				},
+			async getPickaxes(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+					const studioId = this.getCurrentNodeParameter('studioId') as string;
+					const returnData: INodePropertyOptions[] = [];
+
+					const {pickaxes} = await this.helpers.requestWithAuthentication.call(
+						this,
+						'pickaxeApiOAuth2Api',
+						{
+							method: 'GET',
+							url: 'https://api.pickaxe.co/v1/integrations/api/pickaxes/list',
+							json: true,
+							qs: studioId ? {
+								studioId: `=${studioId}`
+							} : {}
+						},
+					);
+
+					for (const pickaxe of pickaxes){
+						const pickaxeName = pickaxe.formtitle
+						const pickaxeId = pickaxe.formid
+						returnData.push({
+							name: pickaxeName,
+							value: pickaxeId
+						})
+					}
+
+					return returnData
+				},
+			async getProducts(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+					const studioId = this.getCurrentNodeParameter('studioId') as string;
+					const returnData: INodePropertyOptions[] = [];
+
+					const {products} = await this.helpers.requestWithAuthentication.call(
+						this,
+						'pickaxeApiOAuth2Api',
+						{
+							method: 'GET',
+							url: 'https://api.pickaxe.co/v1/integrations/api/products/list',
+							json: true,
+							qs: studioId ? {
+								studioId
+							} : {}
+						},
+					);
+
+					for (const product of products){
+						const productName = product.name
+						const productId = product.productId
+						returnData.push({
+							name: productName,
+							value: productId
+						})
+					}
+
+					return returnData
+				},
 		}
 	}
 }
