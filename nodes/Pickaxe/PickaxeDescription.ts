@@ -32,6 +32,44 @@ export const pickaxeOperations: INodeProperties[] = [
 				},
 			},
 			{
+				name: 'Connect Document',
+				value: 'connectDocument',
+				description: 'Connect a document to a Pickaxe or User',
+				action: 'Connect document',
+				// Defines the API call for this operation
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/studio/document/connect',
+						body: {
+							studioId: '={{$parameter.studioId}}',
+							documentId: "={{$parameter.documentId}}",
+							pickaxeId: "={{$parameter.pickaxeId}}",
+							user: "={{$parameter.user}}"
+						},
+					},
+				},
+			},
+			{
+				name: 'Create Document',
+				value: 'createDocument',
+				description: 'Create a new document with the provided details',
+				action: 'Create document',
+				// Defines the API call for this operation
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/studio/document/create',
+						body: {
+							studioId: '={{$parameter.studioId}}',
+							name: "={{$parameter.name}}",
+							website: "={{$parameter.website}}",
+							rawContent: "={{$parameter.rawContent}}"
+						},
+					},
+				},
+			},
+			{
 				name: 'Create User',
 				value: 'createUser',
 				description: 'Create a new user with the provided details',
@@ -55,6 +93,21 @@ export const pickaxeOperations: INodeProperties[] = [
 				},
 			},
 			{
+				name: 'Delete Document',
+				value: 'deleteDocument',
+				description: 'Delete a specific document by its ID',
+				action: 'Delete document',
+				routing: {
+					request: {
+						method: 'DELETE',
+						url: '/studio/document/{{$parameter.documentId}}',
+						body: {
+							studioId: '={{$parameter.studioId}}'
+						},
+					},
+				},
+			},
+			{
 				name: 'Delete User',
 				value: 'deleteUser',
 				description: 'Delete a specific user by their email',
@@ -66,6 +119,41 @@ export const pickaxeOperations: INodeProperties[] = [
 						body: {
 							studioId: '={{$parameter.studioId}}'
 						},
+					},
+				},
+			},
+			{
+				name: 'Disconnect Document',
+				value: 'disconnectDocument',
+				description: 'Detach a document from a Pickaxe or User',
+				action: 'Disconnect document',
+				// Defines the API call for this operation
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/studio/document/disconnect',
+						body: {
+							studioId: '={{$parameter.studioId}}',
+							documentId: "={{$parameter.documentId}}",
+							pickaxeId: "={{$parameter.pickaxeId}}",
+							user: "={{$parameter.user}}"
+						},
+					},
+				},
+			},
+			{
+				name: 'Get Document',
+				value: 'getDocument',
+				description: 'Retrieve a specific document by its ID',
+				action: 'Get a document',
+				// Defines the API call for this operation
+				routing: {
+					request: {
+						method: 'GET',
+						url: '=/studio/document/{{$parameter.documentId}}',
+						qs: {
+							studioId: '={{$parameter.studioId}}'
+						}
 					},
 				},
 			},
@@ -117,6 +205,24 @@ export const pickaxeOperations: INodeProperties[] = [
 							studioId: '={{$parameter.studioId}}',
 							productIds: "={{$parameter.products}}",
 							emails: "={{$parameter.emails}}"
+						},
+					},
+				},
+			},
+			{
+				name: 'List Documents',
+				value: 'listDocuments',
+				description: 'List all documents with optional pagination',
+				action: 'List documents',
+				// Defines the API call for this operation
+				routing: {
+					request: {
+						method: 'GET',
+						url: '/studio/document/list',
+						qs: {
+							skip: '={{$parameter.skip}}',
+							take: '={{$parameter.take}}',
+							studioId: '={{$parameter.studioId}}'
 						},
 					},
 				},
@@ -543,6 +649,227 @@ const getPickaxeHistoryFields: INodeProperties[] = [
 	},
 ];
 
+const createDocumentFields: INodeProperties[] = [
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Studio',
+		name: 'studioId',
+		type: 'options', // This tells n8n it's a dropdown
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['createDocument'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getStudios',
+		},
+		required: true
+	},
+	{
+		displayName: 'Document Name',
+		name: 'name',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['createDocument'],
+			},
+		},
+		description: 'The name of the document to be created',
+		required: true
+	},
+	{
+		displayName: 'Website To Parse',
+		name: 'website',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['createDocument'],
+			},
+		},
+		description: 'A website URL to process as a document',
+	},
+	{
+		displayName: 'Raw Content',
+		name: 'rawContent',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['createDocument'],
+			},
+		},
+		description: 'Raw content of the document to be created',
+	},
+];
+
+const connectDisconnectDocumentFields: INodeProperties[] = [
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Studio',
+		name: 'studioId',
+		type: 'options', // This tells n8n it's a dropdown
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['connectDocument', 'disconnectDocument'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getStudios',
+		},
+		required: true
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Documents',
+		name: 'documentId',
+		type: 'options',
+		default: "",
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['connectDocument', 'disconnectDocument'],
+			},
+		},
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		typeOptions: {
+			loadOptionsMethod: 'getDocuments',
+			loadOptionsDependsOn: ["studioId"]
+		},
+		required: true
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Pickaxe',
+		name: 'pickaxeid',
+		type: 'options', // This tells n8n it's a dropdown
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['connectDocument', 'disconnectDocument'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getPickaxes',
+			loadOptionsDependsOn: ["studioId"]
+		},
+	},
+	{
+		displayName: 'User',
+		name: 'user',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['connectDocument', 'disconnectDocument'],
+			},
+		},
+		description: 'The email of the user to connect the document to',
+	}
+];
+
+const listDocumentsFields: INodeProperties[] = [
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Studio',
+		name: 'studioId',
+		type: 'options', // This tells n8n it's a dropdown
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['listDocuments'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getStudios',
+		},
+		required: true
+	},
+	{
+		displayName: 'Skip',
+		name: 'skip',
+		type: 'number',
+		default: 0,
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['listDocuments'],
+			},
+		},
+		description: 'The number of records to skip for pagination',
+		placeholder: '0',
+	},
+	{
+		displayName: 'Take',
+		name: 'take',
+		type: 'number',
+		default: 10,
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['listDocuments'],
+			},
+		},
+		description: 'The maximum number of records to return',
+		placeholder: '10',
+	},
+];
+
+const getDeleteDocumentFields: INodeProperties[] = [
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Studio',
+		name: 'studioId',
+		type: 'options', // This tells n8n it's a dropdown
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['getDocument', 'deleteDocument'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getStudios',
+		},
+		required: true
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Documents',
+		name: 'documentId',
+		type: 'options',
+		default: "",
+		displayOptions: {
+			show: {
+				resource: ['pickaxe'],
+				operation: ['getDocument', 'deleteDocument'],
+			},
+		},
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		typeOptions: {
+			loadOptionsMethod: 'getDocuments',
+			loadOptionsDependsOn: ["studioId"]
+		},
+		required: true
+	}
+];
+
 /**
  * This final array combines all the fields for all operations.
  * The `displayOptions` on each field will ensure that only the relevant
@@ -555,5 +882,9 @@ export const pickaxeFields: INodeProperties[] = [
 	...inviteUsersFields,
 	...deleteUserFields,
 	...callPickaxeFields,
-	...getPickaxeHistoryFields
+	...getPickaxeHistoryFields,
+	...createDocumentFields,
+	...connectDisconnectDocumentFields,
+	...listDocumentsFields,
+	...getDeleteDocumentFields
 ];
