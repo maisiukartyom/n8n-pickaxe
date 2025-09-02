@@ -90,15 +90,15 @@ export class Pickaxe implements INodeType {
 							method: 'GET',
 							url: 'https://api.pickaxe.co/v1/integrations/api/documents/list',
 							json: true,
-							qs: {
-								studioId: `=${studioId}`
-							}
+							qs: studioId ? {
+								studioId
+							} : {}
 						},
 					);
 
 					for (const document of documents){
 						const documentName = document.name
-						const documentId = document.studioId
+						const documentId = document.documentId
 						returnData.push({
 							name: documentName,
 							value: documentId
@@ -119,7 +119,7 @@ export class Pickaxe implements INodeType {
 							url: 'https://api.pickaxe.co/v1/integrations/api/pickaxes/list',
 							json: true,
 							qs: studioId ? {
-								studioId: `=${studioId}`
+								studioId
 							} : {}
 						},
 					);

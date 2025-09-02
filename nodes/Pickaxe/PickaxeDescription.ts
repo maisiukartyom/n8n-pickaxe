@@ -751,7 +751,7 @@ const connectDisconnectDocumentFields: INodeProperties[] = [
 	{
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Pickaxe',
-		name: 'pickaxeid',
+		name: 'pickaxeId',
 		type: 'options', // This tells n8n it's a dropdown
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
