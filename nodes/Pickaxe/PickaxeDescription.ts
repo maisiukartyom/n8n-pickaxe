@@ -96,7 +96,7 @@ export const pickaxeOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'DELETE',
-						url: '/studio/document/{{$parameter.documentId}}',
+						url: '=/studio/document/{{$parameter.documentId}}',
 						body: {
 							studioId: '={{$parameter.studioId}}'
 						},
@@ -111,7 +111,7 @@ export const pickaxeOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'DELETE',
-						url: '/studio/user/{{$parameter.email}}',
+						url: '=/studio/user/{{$parameter.email}}',
 						body: {
 							studioId: '={{$parameter.studioId}}'
 						},
