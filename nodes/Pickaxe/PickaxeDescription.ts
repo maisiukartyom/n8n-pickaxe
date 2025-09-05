@@ -1,4 +1,3 @@
-// File: UserDescription.ts
 import { INodeProperties } from 'n8n-workflow';
 
 
@@ -36,7 +35,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'connectDocument',
 				description: 'Connect a document to a Pickaxe or User',
 				action: 'Connect document',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'POST',
@@ -55,7 +53,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'createDocument',
 				description: 'Create a new document with the provided details',
 				action: 'Create document',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'POST',
@@ -74,7 +71,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'createUser',
 				description: 'Create a new user with the provided details',
 				action: 'Create user',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'POST',
@@ -127,7 +123,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'disconnectDocument',
 				description: 'Detach a document from a Pickaxe or User',
 				action: 'Disconnect document',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'POST',
@@ -146,7 +141,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'getDocument',
 				description: 'Retrieve a specific document by its ID',
 				action: 'Get a document',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'GET',
@@ -162,7 +156,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'getPickaxeHistory',
 				description: 'Fetch specific Pickaxe chat history',
 				action: 'Get pickaxe history',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'POST',
@@ -181,7 +174,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'getUser',
 				description: 'Retrieve a specific user by their email',
 				action: 'Get a user',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'GET',
@@ -214,7 +206,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'listDocuments',
 				description: 'List all documents with optional pagination',
 				action: 'List documents',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'GET',
@@ -232,7 +223,6 @@ export const pickaxeOperations: INodeProperties[] = [
 				value: 'listUsers',
 				description: 'List all users with optional pagination',
 				action: 'List users',
-				// Defines the API call for this operation
 				routing: {
 					request: {
 						method: 'GET',
@@ -293,7 +283,7 @@ const listUsersFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Studio',
 		name: 'studioId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -342,7 +332,7 @@ const createUserFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Studio',
 		name: 'studioId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -462,7 +452,7 @@ const inviteUsersFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Studio',
 		name: 'studioId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -520,7 +510,7 @@ const deleteUserFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Studio',
 		name: 'studioId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -556,7 +546,7 @@ const callPickaxeFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Pickaxe',
 		name: 'formId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -591,7 +581,7 @@ const getPickaxeHistoryFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Pickaxe',
 		name: 'formId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -654,7 +644,7 @@ const createDocumentFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Studio',
 		name: 'studioId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -715,7 +705,7 @@ const connectDisconnectDocumentFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Studio',
 		name: 'studioId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -752,7 +742,7 @@ const connectDisconnectDocumentFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Pickaxe',
 		name: 'pickaxeId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -786,7 +776,7 @@ const listDocumentsFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Studio',
 		name: 'studioId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options',
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {
@@ -835,7 +825,7 @@ const getDeleteDocumentFields: INodeProperties[] = [
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 		displayName: 'Studio',
 		name: 'studioId',
-		type: 'options', // This tells n8n it's a dropdown
+		type: 'options', 
 		default: '',
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 		displayOptions: {

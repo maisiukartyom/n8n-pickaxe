@@ -4,7 +4,7 @@ import { pickaxeOperations, pickaxeFields } from './PickaxeDescription';
 export class Pickaxe implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Pickaxe',
-		name: 'pickaxe', // A more unique name is good practice
+		name: 'pickaxe',
 		icon: 'file:icon.svg',
 		group: ['transform'],
 		version: 1,
@@ -63,8 +63,8 @@ export class Pickaxe implements INodeType {
 						'pickaxeApiOAuth2Api', // The name of the credential to use
 						{
 							method: 'GET',
-							url: 'https://api.pickaxe.co/v1/integrations/api/studios/list', // Your endpoint to get the list
 							json: true,
+							url: 'https://api.pickaxe.co/v1/integrations/api/studios/list', 
 						},
 					);
 

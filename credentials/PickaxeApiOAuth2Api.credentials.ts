@@ -68,7 +68,7 @@ export class PickaxeApiOAuth2Api implements ICredentialType {
 		
 		properties: {
 			headers: {
-				'Authorization': 'OAuth {{$credentials.authentication.access_token}}',
+				'Authorization': 'Bearer {{$credentials.authentication.access_token}}',
 			}
 		}
 	};
